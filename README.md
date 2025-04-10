@@ -164,35 +164,3 @@ Pull requests are welcome! Please create issues for any bugs or enhancements.
 ## 🔥 Credits
 
 Built by [@carsonfeng](https://github.com/carsonfeng) for real-world robust bipartite matching in task scheduling, recommender matching, and graph optimization applications.
-
----
-
-# ✅ 附带 main.go（你说现在是空的 ✅）
-
-```go
-package main
-
-import (
-	"fmt"
-	"github.com/carsonfeng/KMatch/hungarian"
-)
-
-func main() {
-	matrix := [][]float64{
-		{10, 2, 5},
-		{7, hungarian.NegativeInf, 1},
-		{4, 8, 6},
-	}
-
-	result := hungarian.SolveMax(matrix)
-
-	fmt.Println("🔗 Matching result:")
-	for i, row := range result {
-		for j, val := range row {
-			fmt.Printf("Row %d → Col %d = %.2f\n", i, j, val)
-		}
-	}
-}
-```
-
----
