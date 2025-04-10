@@ -144,6 +144,7 @@ func kmSolve(cost [][]float64) map[int]map[int]float64 {
 
 BUILD_RESULT:
 	result := make(map[int]map[int]float64)
+	matched := 0
 	for x := 0; x < len(cost); x++ {
 		y := xy[x]
 		if y >= 0 && y < len(cost[x]) && !math.IsInf(cost[x][y], -1) {
@@ -151,8 +152,16 @@ BUILD_RESULT:
 				result[x] = make(map[int]float64)
 			}
 			result[x][y] = cost[x][y]
+			matched++
 		}
 	}
+
+	// check if all rows are matched
+	if matched < len(cost) {
+		// fallback return！
+		return greedyGlobalMax(cost)
+	}
+
 	return result
 }
 

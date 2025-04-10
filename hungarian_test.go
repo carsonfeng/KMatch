@@ -224,6 +224,19 @@ var testsMax = []struct {
 	}, map[int]map[int]float64{
 		0: {1: 100},
 	}},
+
+	{
+		name: "KMatch Test Case 21 - canPerfectMatch is true, but no perfect matching (counterexample)",
+		m: [][]float64{
+			{1, math.Inf(-1), math.Inf(-1)},
+			{1, math.Inf(-1), math.Inf(-1)},
+			{math.Inf(-1), 1, 1},
+		},
+		result: map[int]map[int]float64{
+			0: {0: 1},
+			2: {1: 1},
+		},
+	},
 }
 
 func sumWeight(m map[int]map[int]float64) float64 {
