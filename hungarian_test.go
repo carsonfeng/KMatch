@@ -1,11 +1,12 @@
 package hungarian_test
 
 import (
-	hungarian "github.com/carsonfeng/KMatch"
 	"math"
 	"math/rand"
 	"testing"
 	"time"
+
+	hungarian "github.com/carsonfeng/KMatch"
 )
 
 var testsMax = []struct {
@@ -13,7 +14,7 @@ var testsMax = []struct {
 	m      [][]float64
 	result map[int]map[int]float64
 }{
-	{"默认", [][]float64{
+	{"Default", [][]float64{
 		{6, 2, 3, 4, 5},
 		{3, 8, 2, 8, 1},
 		{9.1, 9, 5, 4, 2},
@@ -27,7 +28,7 @@ var testsMax = []struct {
 		4: {4: 9},
 	}},
 
-	{"sawa算法匹配测试用例1", [][]float64{
+	{"KMatch Test Case 1", [][]float64{
 		{2, 100},
 		{100, hungarian.NegativeInf},
 	}, map[int]map[int]float64{
@@ -35,7 +36,7 @@ var testsMax = []struct {
 		1: {0: 100},
 	}},
 
-	{"sawa算法匹配测试用例2", [][]float64{
+	{"KMatch Test Case 2", [][]float64{
 		{-0.1, -0.1},
 		{-0.1, 0},
 	}, map[int]map[int]float64{
@@ -43,7 +44,7 @@ var testsMax = []struct {
 		1: {1: 0},
 	}},
 
-	{"sawa算法匹配测试用例3", [][]float64{
+	{"KMatch Test Case 3", [][]float64{
 		{3.16, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf},
 		{2.58, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf},
 		{2.35, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf},
@@ -53,7 +54,7 @@ var testsMax = []struct {
 		4: {0: 7.9},
 	}},
 
-	{"sawa算法匹配测试用例4", [][]float64{
+	{"KMatch Test Case 4", [][]float64{
 		{3.16, 4.16, 5.16},
 		{hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf},
 		{hungarian.NegativeInf, hungarian.NegativeInf, 6.16},
@@ -62,25 +63,25 @@ var testsMax = []struct {
 		2: {2: 6.16},
 	}},
 
-	{"sawa算法匹配测试用例5 行列不相同 行比列少", [][]float64{
+	{"KMatch Test Case 5 - Rows < Columns", [][]float64{
 		{5.8, 6.9, 8.3, 7.2},
 	}, map[int]map[int]float64{
 		0: {2: 8.3},
 	}},
 
-	{"sawa算法匹配测试用例5.2 行列不相同 行比列少", [][]float64{
+	{"KMatch Test Case 5.2 - Rows < Columns", [][]float64{
 		{5.8, 6.9, 7.2, 8.3},
 	}, map[int]map[int]float64{
 		0: {3: 8.3},
 	}},
 
-	{"sawa算法匹配测试用例5.3 行列不相同 行比列少", [][]float64{
+	{"KMatch Test Case 5.3 - Rows < Columns", [][]float64{
 		{8.3, 5.8, 6.9, 7.2},
 	}, map[int]map[int]float64{
 		0: {0: 8.3},
 	}},
 
-	{"sawa算法匹配测试用例6 行列不相同 行比列多", [][]float64{
+	{"KMatch Test Case 6 - Rows > Columns", [][]float64{
 		{5.8},
 		{6.9},
 		{8.3},
@@ -89,7 +90,7 @@ var testsMax = []struct {
 		2: {0: 8.3},
 	}},
 
-	{"sawa算法匹配测试用例6.1 行列不相同 行比列多", [][]float64{
+	{"KMatch Test Case 6.1 - Rows > Columns", [][]float64{
 		{5.8},
 		{6.9},
 		{7.2},
@@ -98,7 +99,7 @@ var testsMax = []struct {
 		3: {0: 8.3},
 	}},
 
-	{"sawa算法匹配测试用例6.1 行列不相同 行比列多", [][]float64{
+	{"KMatch Test Case 6.2 - Rows > Columns", [][]float64{
 		{8.3},
 		{5.8},
 		{6.9},
@@ -107,7 +108,7 @@ var testsMax = []struct {
 		0: {0: 8.3},
 	}},
 
-	{"sawa算法匹配测试用例7", [][]float64{
+	{"KMatch Test Case 7", [][]float64{
 		{hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, 3.16},
 		{hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, 2.58},
 		{hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, 2.35},
@@ -117,7 +118,7 @@ var testsMax = []struct {
 		4: {4: 7.9},
 	}},
 
-	{"sawa算法匹配测试用例8", [][]float64{
+	{"KMatch Test Case 8", [][]float64{
 		{20.888, 100, hungarian.NegativeInf, hungarian.NegativeInf},
 		{100, 20, hungarian.NegativeInf, hungarian.NegativeInf},
 		{hungarian.NegativeInf, hungarian.NegativeInf, 20.888, 21},
@@ -129,7 +130,7 @@ var testsMax = []struct {
 		3: {2: 21},
 	}},
 
-	{"sawa算法匹配测试用例9 含有权重0（但可以连通）的矩阵", [][]float64{
+	{"KMatch Test Case 9 - Matrix with Weight 0 (but Connectable)", [][]float64{
 		{0, 1, 2},
 		{1, 0, 3},
 		{2, 3, 0},
@@ -139,7 +140,7 @@ var testsMax = []struct {
 		2: {1: 3},
 	}},
 	// 10 New Test Cases
-	{"sawa算法匹配测试用例10", [][]float64{
+	{"KMatch Test Case 10", [][]float64{
 		{3, 1},
 		{1, 4},
 	}, map[int]map[int]float64{
@@ -147,7 +148,7 @@ var testsMax = []struct {
 		1: {1: 4},
 	}},
 
-	{"sawa算法匹配测试用例11", [][]float64{
+	{"KMatch Test Case 11", [][]float64{
 		{1, 2, 3},
 		{3, 1, 2},
 		{2, 3, 1},
@@ -157,7 +158,7 @@ var testsMax = []struct {
 		2: {1: 3},
 	}},
 
-	{"sawa算法匹配测试用例12", [][]float64{
+	{"KMatch Test Case 12", [][]float64{
 		{1, 0, 0},
 		{0, 1, 0},
 		{0, 0, 1},
@@ -167,7 +168,7 @@ var testsMax = []struct {
 		2: {2: 1},
 	}},
 
-	{"sawa算法匹配测试用例13", [][]float64{
+	{"KMatch Test Case 13", [][]float64{
 		{0, hungarian.NegativeInf, hungarian.NegativeInf},
 		{hungarian.NegativeInf, 0, hungarian.NegativeInf},
 		{hungarian.NegativeInf, hungarian.NegativeInf, 100},
@@ -177,7 +178,7 @@ var testsMax = []struct {
 		2: {2: 100},
 	}},
 
-	{"sawa算法匹配测试用例14", [][]float64{
+	{"KMatch Test Case 14", [][]float64{
 		{0.08, 0.1},
 		{0.13, 0.14},
 	}, map[int]map[int]float64{
@@ -185,19 +186,19 @@ var testsMax = []struct {
 		1: {0: 0.13},
 	}},
 
-	{"sawa算法匹配测试用例15", [][]float64{
+	{"KMatch Test Case 15", [][]float64{
 		{0.15, 0.1125},
 	}, map[int]map[int]float64{
 		0: {0: 0.15},
 	}},
 
-	{"sawa算法匹配测试用例16", [][]float64{
+	{"KMatch Test Case 16", [][]float64{
 		{0.1125, 0.15},
 	}, map[int]map[int]float64{
 		0: {1: 0.15},
 	}},
 
-	{"sawa算法匹配测试用例17", [][]float64{
+	{"KMatch Test Case 17", [][]float64{
 		{2.64, 3.168},
 		{3.2, 3.84},
 		{2.4, 2.88},
@@ -206,7 +207,7 @@ var testsMax = []struct {
 		1: {1: 3.84},
 	}},
 
-	{"sawa算法匹配测试用例18-没有边，不要崩", [][]float64{
+	{"KMatch Test Case 18 - No Edges, Should Not Crash", [][]float64{
 		{hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf},
 		{hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf},
 		{hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf},
@@ -214,9 +215,9 @@ var testsMax = []struct {
 		{hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf, hungarian.NegativeInf},
 	}, map[int]map[int]float64{}},
 
-	{"sawa算法匹配测试用例19-空矩阵，不要崩", [][]float64{}, map[int]map[int]float64{}},
+	{"KMatch Test Case 19 - Empty Matrix, Should Not Crash", [][]float64{}, map[int]map[int]float64{}},
 
-	{"sawa算法匹配测试用例20-最大权值优先", [][]float64{
+	{"KMatch Test Case 20 - Max Weight Priority", [][]float64{
 		{1, 100},
 		{hungarian.NegativeInf, 2},
 		{hungarian.NegativeInf, 3},
@@ -238,17 +239,17 @@ func sumWeight(m map[int]map[int]float64) float64 {
 func TestSolveMax(t *testing.T) {
 	for i, value := range testsMax {
 		calculate := hungarian.SolveMax(value.m)
-		t.Logf("Case %d, 测试名称: %s, 匹配数量: %d", i, value.name, len(calculate))
+		t.Logf("Case %d, Test Name: %s, Match Count: %d", i, value.name, len(calculate))
 		t.Logf("Case %d SolveMax Result: %v", i, calculate)
 
 		expectedSum := sumWeight(value.result)
 		actualSum := sumWeight(calculate)
 
-		// 🎯 匹配数量可以比较，但更重要是匹配总权值检查
+		// 🎯 Match count can be compared, but more importantly check the total weight
 		if math.Abs(expectedSum-actualSum) > 1e-6 {
-			t.Errorf("❌ Case %d FAILED: 权重总和不符，expected = %.6f, got = %.6f", i, expectedSum, actualSum)
+			t.Errorf("❌ Case %d FAILED: Total weight mismatch, expected = %.6f, got = %.6f", i, expectedSum, actualSum)
 		} else {
-			t.Logf("✅ Case %d passed → 匹配总和 OK（%.6f）\n", i, actualSum)
+			t.Logf("✅ Case %d passed → Total weight OK (%.6f)\n", i, actualSum)
 		}
 	}
 }

@@ -156,7 +156,7 @@ BUILD_RESULT:
 	return result
 }
 
-// ==== 👇 Greedy strategy: Global maximum weight edge priority matching (for non-perfect graphs) ====
+// ==== Greedy strategy: Global maximum weight edge priority matching (for non-perfect graphs) ====
 
 type edge struct {
 	i, j   int
